@@ -5,14 +5,13 @@ const resolvers = {
     Query: {
         login: async (_, { username, password }) => {
             const user = await User.findOne({ username });
-            if (!user) {
-                throw new Error('No user with that username');
-            }
-            if (user.password !== password) {
-                throw new Error('Incorrect password');
+            // Validate user existence and password
+            if (!user || user.password !== password) {
+                throw new Error('Invalid username or password');
             }
             return {
-                message: 'logged in successfully'
+                message: 'Logged in successfully',
+                user: user
             };
         },
         getEmployees: async () => {
@@ -24,10 +23,7 @@ const resolvers = {
             if (!employee) {
                 throw new Error('No employee with that ID');
             }
-            return {
-                message: 'Employee found successfully',
-                employee: employee
-            };
+            return employee;
         }
     },
     Mutation: {
@@ -40,7 +36,10 @@ const resolvers = {
             }
             const user = new User({ username, email, password });
             await user.save();
-            return user;
+            return {
+                message: 'Signed up successfully',
+                user: user
+            };
         },
         newEmployee: async (_, { id, firstname, lastname, email, gender, salary }) => { 
             const existingUser = await User.findOne({ email });

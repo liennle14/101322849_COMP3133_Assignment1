@@ -13,6 +13,7 @@ mongoose.connect("mongodb+srv://dbuser:VNGcdYVMGXdLQz0a@cluster0.wihv2ix.mongodb
   });
 
 const app = express();
+app.use(express.json());
 const server = new ApolloServer({ 
     typeDefs,
     resolvers 
