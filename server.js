@@ -120,6 +120,8 @@ app.post('/login', async (req, res) => {
 });
 
 
-app.listen(4000, () =>
-    console.log(`🚀 Server ready at https://101322849-comp3133-assig2.vercel.app:4000`)
-);
+app.listen(3000, () => console.log("Server ready on port 3000."));
+
+module.exports = (req, res) => {
+    app.handle(req, res);
+  };
